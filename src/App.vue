@@ -1,6 +1,6 @@
 <script setup>
 import HelloWorld from "./components/HelloWorld.vue";
-import ChessBoard from "./components/ChessBoard.vue";
+import Board from "./components/Board.vue";
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import ChessBoard from "./components/ChessBoard.vue";
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <ChessBoard />
+  <Board />
   <!-- <HelloWorld msg="Vite + Vue" /> -->
 </template>
 

@@ -7,7 +7,7 @@ import { Piece } from "../models/pieces";
 
 const props = defineProps({
   piece: {
-    type: Object,
+    type: Object as () => Piece | null,
     required: true,
   },
   color: {

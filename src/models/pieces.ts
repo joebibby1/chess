@@ -14,7 +14,7 @@ export abstract class Piece {
 export class Pawn extends Piece {
   constructor(isWhite: boolean) {
     super(isWhite);
-    this.icon = isWhite ? "fas fa-chess-pawn" : "fas fa-chess-pawn";
+    this.icon = "chess-pawn";
   }
   isValidMove(): boolean {
     // first move can move 2 spaces
@@ -27,6 +27,7 @@ export class Pawn extends Piece {
 export class Bishop extends Piece {
   constructor(isWhite: boolean) {
     super(isWhite);
+    this.icon = "chess-bishop";
   }
   isValidMove(): boolean {
     return true;
@@ -36,6 +37,7 @@ export class Bishop extends Piece {
 export class Knight extends Piece {
   constructor(isWhite: boolean) {
     super(isWhite);
+    this.icon = "chess-knight";
   }
   isValidMove(): boolean {
     return true;
@@ -45,6 +47,7 @@ export class Knight extends Piece {
 export class Rook extends Piece {
   constructor(isWhite: boolean) {
     super(isWhite);
+    this.icon = "chess-rook";
   }
   isValidMove(): boolean {
     return true;
@@ -54,6 +57,7 @@ export class Rook extends Piece {
 export class Queen extends Piece {
   constructor(isWhite: boolean) {
     super(isWhite);
+    this.icon = "chess-queen";
   }
   isValidMove(): boolean {
     return true;
@@ -63,6 +67,7 @@ export class Queen extends Piece {
 export class King extends Piece {
   constructor(isWhite: boolean) {
     super(isWhite);
+    this.icon = "chess-king";
   }
   isValidMove(): boolean {
     return true;

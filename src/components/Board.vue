@@ -1,8 +1,11 @@
 <template>
   <div>test</div>
-  <div v-for="(row, index) in board.pieces" class="board-row">
-    <div v-for="(column, i) in board.pieces[index]">
-      <!-- <ChessPiece :piece="board.pieces[index][i]" /> -->
+  <div v-for="(row, rowIndex) in board.pieces" class="board-row">
+    <div v-for="(column, columIndex) in board.pieces[rowIndex]">
+      <Piece
+        :piece="board.pieces[rowIndex][columIndex]"
+        :position="[rowIndex, columIndex]"
+      />
       <font-awesome-icon icon="chess-queen" class="black-piece" />
     </div>
   </div>
@@ -13,7 +16,7 @@ import { Board } from "../models/board";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faChessQueen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import ChessPiece from "./ChessPiece.vue";
+import Piece from "./Piece.vue";
 
 library.add(faChessQueen);
 
