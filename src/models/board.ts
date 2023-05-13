@@ -1,6 +1,6 @@
-import { Piece } from "./pieces";
+import { Piece, Pawn, Rook, Knight, Bishop, Queen, King } from "./pieces";
 
-class Board {
+export class Board {
   pieces: (Piece | null)[][];
   constructor() {
     this.pieces = Array(8)
