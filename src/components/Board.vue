@@ -6,7 +6,6 @@
         :piece="board.pieces[rowIndex][columIndex]"
         :position="[rowIndex, columIndex]"
       />
-      <font-awesome-icon icon="chess-queen" class="black-piece" />
     </div>
   </div>
 </template>
