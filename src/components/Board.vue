@@ -20,8 +20,4 @@ const board: Board = new Board();
   display: flex;
   flex-direction: row;
 }
-
-.black-piece {
-  color: black;
-}
 </style>

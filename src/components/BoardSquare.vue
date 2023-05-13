@@ -1,6 +1,6 @@
 <template>
   <div :class="`${sqaureBackground} board-square`">
-    <div v-if="props.piece" :class="pieceColor">
+    <div v-if="props.piece" :class="pieceColor" :draggable="true">
       <font-awesome-icon :icon="props.piece?.icon" />
     </div>
   </div>
@@ -58,10 +58,12 @@ const pieceColor = props.piece?.isWhite ? "piece-white" : "piece-black";
 
 .piece-white {
   color: white;
+  cursor: pointer;
 }
 
 .piece-black {
   color: black;
+  cursor: pointer;
 }
 
 .board-square {
