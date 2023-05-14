@@ -38,14 +38,15 @@ export class Board {
     this.pieces[position[0]][position[1]] = null;
   }
 
+  // new piece created when we move position
   createNewPiece(piece: Piece, position: number[]) {
     let newPiece;
     switch (piece.name) {
       case "Pawn":
-        newPiece = new Pawn(piece.isWhite);
+        newPiece = new Pawn(piece.isWhite, true);
         break;
       case "Rook":
-        newPiece = new Rook(piece.isWhite);
+        newPiece = new Rook(piece.isWhite, true);
         break;
       case "Knight":
         newPiece = new Knight(piece.isWhite);
@@ -56,6 +57,8 @@ export class Board {
       case "Queen":
         newPiece = new Queen(piece.isWhite);
         break;
+      case "King":
+        newPiece = new King(piece.isWhite, true);
     }
     this.pieces[position[0]][position[1]] = newPiece;
   }
@@ -68,6 +71,14 @@ export class Board {
     if (!piece) {
       return;
     }
+
+    console.log("piece", piece);
+    console.log("valid", piece.isValidMove(from, to));
+
+    if (!piece.isValidMove(from, to)) {
+      return;
+    }
+
     this.createNewPiece(piece, to);
     this.removePiece(from);
   }

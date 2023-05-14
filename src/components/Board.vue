@@ -1,5 +1,12 @@
 <template>
+  <div class="board-row">
+    <div class="board-square"></div>
+    <div v-for="(column, columnIndex) in board.pieces[0]" class="board-square">
+      {{ numberLetterMap[columnIndex] }}
+    </div>
+  </div>
   <div v-for="(row, rowIndex) in board.pieces" class="board-row">
+    <div class="board-square">{{ rowIndex + 1 }}</div>
     <div v-for="(column, columIndex) in board.pieces[rowIndex]">
       <board-square
         :piece="board.pieces[rowIndex][columIndex]"
@@ -29,11 +36,26 @@ const onClick = (rowIndex: number, columnIndex: number) => {
     selectSquare(rowIndex, columnIndex);
   }
 };
-console.log(board.value.pieces);
+
+const numberLetterMap = {
+  0: "A",
+  1: "B",
+  2: "C",
+  3: "D",
+  4: "E",
+  5: "F",
+  6: "G",
+  7: "H",
+};
 </script>
 <style scoped>
 .board-row {
   display: flex;
   flex-direction: row;
+}
+
+.board-square {
+  width: 40px;
+  height: 40px;
 }
 </style>
