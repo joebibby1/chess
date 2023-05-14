@@ -16,8 +16,12 @@ export class Board {
       new Knight(true),
       new Rook(true),
     ];
-    this.pieces[1] = Array(8).fill(new Pawn(true));
-    this.pieces[6] = Array(8).fill(new Pawn(false));
+    this.pieces[1] = Array(8)
+      .fill(null)
+      .map(() => new Pawn(true));
+    this.pieces[6] = Array(8)
+      .fill(null)
+      .map(() => new Pawn(false));
     this.pieces[7] = [
       new Rook(false),
       new Knight(false),
@@ -30,11 +34,41 @@ export class Board {
     ];
   }
 
+  removePiece(position: number[]) {
+    this.pieces[position[0]][position[1]] = null;
+  }
+
+  createNewPiece(piece: Piece, position: number[]) {
+    let newPiece;
+    switch (piece.name) {
+      case "Pawn":
+        newPiece = new Pawn(piece.isWhite);
+        break;
+      case "Rook":
+        newPiece = new Rook(piece.isWhite);
+        break;
+      case "Knight":
+        newPiece = new Knight(piece.isWhite);
+        break;
+      case "Bishop":
+        newPiece = new Bishop(piece.isWhite);
+        break;
+      case "Queen":
+        newPiece = new Queen(piece.isWhite);
+        break;
+    }
+    this.pieces[position[0]][position[1]] = newPiece;
+  }
+
   movePiece(from: number[], to: number[]) {
     // check if valid move
     // if valid move, move piece
     // else throw error
-    this.pieces[to[0]][to[1]] = this.pieces[from[0]][from[1]];
-    this.pieces[from[0]][from[1]] = null;
+    const piece = this.pieces[from[0]][from[1]];
+    if (!piece) {
+      return;
+    }
+    this.createNewPiece(piece, to);
+    this.removePiece(from);
   }
 }

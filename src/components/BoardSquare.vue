@@ -17,6 +17,7 @@ import {
   faChessBishop,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { watch, watchEffect, ref } from "vue";
 
 library.add(
   faChessQueen,
@@ -36,6 +37,10 @@ const props = defineProps({
     type: Array as () => number[],
     required: true,
   },
+  selectedSquare: {
+    type: Array as () => number[] | null,
+    required: false,
+  },
 });
 
 // squares with a sum index that is even are white
@@ -44,7 +49,10 @@ const sqaureBackground =
     ? "background-white"
     : "background-black";
 
-const pieceColor = props.piece?.isWhite ? "piece-white" : "piece-black";
+const pieceColor = ref("");
+watchEffect(() => {
+  pieceColor.value = props.piece?.isWhite ? "piece-white" : "piece-black";
+});
 </script>
 
 <style scoped>
