@@ -1,7 +1,7 @@
 <template>
   <div :class="`${sqaureBackground} board-square`">
-    <div v-if="props.piece" :class="pieceColor" :draggable="true">
-      <font-awesome-icon :icon="props.piece?.icon" />
+    <div v-if="piece" :class="pieceColor" :draggable="true">
+      <font-awesome-icon :icon="piece?.icon" />
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@ import {
   faChessBishop,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { watch, watchEffect, ref } from "vue";
+import { watch, watchEffect, ref, defineComponent } from "vue";
 
 library.add(
   faChessQueen,
@@ -27,10 +27,9 @@ library.add(
   faChessKnight,
   faChessBishop
 );
-
 const props = defineProps({
-  piece: {
-    type: Object as () => Piece | null,
+  pieces: {
+    type: Array as () => Piece[],
     required: true,
   },
   position: {
@@ -42,16 +41,32 @@ const props = defineProps({
     required: false,
   },
 });
-
-// squares with a sum index that is even are white
-const sqaureBackground =
-  (props.position[0] + props.position[1]) % 2 === 0
-    ? "background-white"
-    : "background-black";
-
 const pieceColor = ref("");
+const piece = ref<Piece | null>(null);
+const sqaureBackground = ref("");
 watchEffect(() => {
-  pieceColor.value = props.piece?.isWhite ? "piece-white" : "piece-black";
+  piece.value = props.pieces.find(
+    (piece) =>
+      piece.position[0] === props.position[0] &&
+      piece.position[1] === props.position[1]
+  );
+  pieceColor.value = piece.value?.isWhite ? "piece-white" : "piece-black";
+});
+
+watchEffect(() => {
+  if (
+    props.selectedSquare &&
+    props.selectedSquare[0] === props.position[0] &&
+    props.selectedSquare[1] === props.position[1]
+  ) {
+    sqaureBackground.value = "background-selected";
+  } else {
+    // squares with a sum index that is even are white
+    sqaureBackground.value =
+      (props.position[0] + props.position[1]) % 2 === 0
+        ? "background-white"
+        : "background-black";
+  }
 });
 </script>
 
@@ -62,6 +77,10 @@ watchEffect(() => {
 
 .background-black {
   background-color: #aaaaaa;
+}
+
+.background-selected {
+  background-color: green;
 }
 
 .piece-white {
