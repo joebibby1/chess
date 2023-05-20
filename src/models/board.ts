@@ -1,85 +1,99 @@
 import { Piece, Pawn, Rook, Knight, Bishop, Queen, King } from "./pieces";
 
 export class Board {
-  pieces: (Piece | null)[][];
+  pieces: Piece[];
+  boardSquares: number[][];
   constructor() {
-    this.pieces = Array(8)
+    this.boardSquares = Array(8)
       .fill(null)
       .map(() => Array(8).fill(null));
-    this.pieces[0] = [
-      new Rook(true),
-      new Knight(true),
-      new Bishop(true),
-      new Queen(true),
-      new King(true),
-      new Bishop(true),
-      new Knight(true),
-      new Rook(true),
+
+    this.initializePieces();
+  }
+
+  initializePieces() {
+    const whitePawns = Array(8)
+      .fill(null)
+      .map((_, i) => new Pawn(true, [1, i]));
+    const blackPawns = Array(8)
+      .fill(null)
+      .map((_, i) => new Pawn(false, [6, i]));
+
+    const whitePieces = [
+      new Rook(true, [0, 0]),
+      new Knight(true, [0, 1]),
+      new Bishop(true, [0, 2]),
+      new Queen(true, [0, 3]),
+      new King(true, [0, 4]),
+      new Bishop(true, [0, 5]),
+      new Knight(true, [0, 6]),
+      new Rook(true, [0, 7]),
     ];
-    this.pieces[1] = Array(8)
-      .fill(null)
-      .map(() => new Pawn(true));
-    this.pieces[6] = Array(8)
-      .fill(null)
-      .map(() => new Pawn(false));
-    this.pieces[7] = [
-      new Rook(false),
-      new Knight(false),
-      new Bishop(false),
-      new Queen(false),
-      new King(false),
-      new Bishop(false),
-      new Knight(false),
-      new Rook(false),
+
+    const blackPieces = [
+      new Rook(false, [7, 0]),
+      new Knight(false, [7, 1]),
+      new Bishop(false, [7, 2]),
+      new Queen(false, [7, 3]),
+      new King(false, [7, 4]),
+      new Bishop(false, [7, 5]),
+      new Knight(false, [7, 6]),
+      new Rook(false, [7, 7]),
+    ];
+
+    this.pieces = [
+      ...whitePawns,
+      ...blackPawns,
+      ...whitePieces,
+      ...blackPieces,
     ];
   }
 
-  removePiece(position: number[]) {
-    this.pieces[position[0]][position[1]] = null;
+  /**
+   * Returns the piece at the given position, if one exists
+   *
+   * @param {number[]} position
+   * @return {*}
+   * @memberof Board
+   */
+  getActivePiece(position: number[]) {
+    if (!position || !this.pieces) return;
+    return this.pieces.find(
+      (piece) =>
+        piece.position[0] === position[0] &&
+        piece.position[1] === position[1] &&
+        !piece.isTaken
+    );
   }
+
+  takePiece(position: number[]) {}
+
+  // removePiece(position: number[]) {
+  //   this.pieces[position[0]][position[1]] = null;
+  // }
 
   // new piece created when we move position
-  createNewPiece(piece: Piece, position: number[]) {
-    let newPiece;
-    switch (piece.name) {
-      case "Pawn":
-        newPiece = new Pawn(piece.isWhite, true);
-        break;
-      case "Rook":
-        newPiece = new Rook(piece.isWhite, true);
-        break;
-      case "Knight":
-        newPiece = new Knight(piece.isWhite);
-        break;
-      case "Bishop":
-        newPiece = new Bishop(piece.isWhite);
-        break;
-      case "Queen":
-        newPiece = new Queen(piece.isWhite);
-        break;
-      case "King":
-        newPiece = new King(piece.isWhite, true);
-    }
-    this.pieces[position[0]][position[1]] = newPiece;
-  }
-
-  movePiece(from: number[], to: number[]) {
-    // check if valid move
-    // if valid move, move piece
-    // else throw error
-    const piece = this.pieces[from[0]][from[1]];
-    if (!piece) {
-      return;
-    }
-
-    console.log("piece", piece);
-    console.log("valid", piece.isValidMove(from, to));
-
-    if (!piece.isValidMove(from, to)) {
-      return;
-    }
-
-    this.createNewPiece(piece, to);
-    this.removePiece(from);
-  }
+  // createNewPiece(piece: Piece, position: number[]) {
+  //   let newPiece;
+  //   switch (piece.name) {
+  //     case "Pawn":
+  //       newPiece = new Pawn(piece.isWhite, true);
+  //       break;
+  //     case "Rook":
+  //       newPiece = new Rook(piece.isWhite, true);
+  //       break;
+  //     case "Knight":
+  //       newPiece = new Knight(piece.isWhite);
+  //       break;
+  //     case "Bishop":
+  //       newPiece = new Bishop(piece.isWhite);
+  //       break;
+  //     case "Queen":
+  //       newPiece = new Queen(piece.isWhite);
+  //       break;
+  //     case "King":
+  //       newPiece = new King(piece.isWhite, true);
+  //   }
+  //   this.pieces[position[0]][position[1]] = newPiece;
+  // }
 }

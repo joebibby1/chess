@@ -7,6 +7,7 @@
 </template>
 <script setup lang="ts">
 import { Piece } from "../models/pieces";
+import { Board } from "../models/board";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faChessQueen,
@@ -40,16 +41,16 @@ const props = defineProps({
     type: Array as () => number[] | null,
     required: false,
   },
+  board: {
+    type: Object as () => Board,
+    required: true,
+  },
 });
 const pieceColor = ref("");
 const piece = ref<Piece | null>(null);
 const sqaureBackground = ref("");
 watchEffect(() => {
-  piece.value = props.pieces.find(
-    (piece) =>
-      piece.position[0] === props.position[0] &&
-      piece.position[1] === props.position[1]
-  );
+  piece.value = props.board.getActivePiece(props.position);
   pieceColor.value = piece.value?.isWhite ? "piece-white" : "piece-black";
 });
 

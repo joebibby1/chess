@@ -13,7 +13,8 @@ export abstract class Piece {
     this.hasMoved = false;
   }
 
-  abstract move(to: number[], otherPieces: Piece[]): void;
+  abstract move(to: number[], otherPieces: Piece[]): boolean;
+  abstract take(): void;
 }
 
 export class Pawn extends Piece {
@@ -23,12 +24,20 @@ export class Pawn extends Piece {
     this.name = "Pawn";
     this.position = initialPosition;
   }
+  take() {
+    this.isTaken = true;
+  }
+
   move(to: number[], otherPieces: Piece[]): boolean {
-    if (!this.hasMoved) this.hasMoved = true;
-    this.position = to;
+    // can move 2 on first move, 1 otherwise
+    const distanceTravelled = Math.abs(this.position[0] - to[0]);
+    if (distanceTravelled > 2) return false;
+    if (distanceTravelled === 2 && this.hasMoved) return false;
 
     console.log("to", to);
-
+    // execute the move
+    this.position = to;
+    this.hasMoved = true;
     return true;
 
     // // can only move forward (how do we know which way is forward?, for now assume white always starts at 1st row)
@@ -61,8 +70,12 @@ export class Bishop extends Piece {
     this.icon = "chess-bishop";
     this.name = "Bishop";
   }
-  move(): boolean {
+  move(to: number[], otherPieces: Piece[]): boolean {
+    this.position = to;
     return true;
+  }
+  take() {
+    this.isTaken = true;
   }
 }
 
@@ -72,8 +85,13 @@ export class Knight extends Piece {
     this.icon = "chess-knight";
     this.name = "Knight";
   }
-  move(): boolean {
+  move(to: number[], otherPieces: Piece[]): boolean {
+    this.position = to;
     return true;
+  }
+
+  take() {
+    this.isTaken = true;
   }
 }
 
@@ -83,8 +101,13 @@ export class Rook extends Piece {
     this.icon = "chess-rook";
     this.name = "Rook";
   }
-  move(): boolean {
+  move(to: number[], otherPieces: Piece[]): boolean {
+    this.position = to;
     return true;
+  }
+
+  take() {
+    this.isTaken = true;
   }
 }
 
@@ -94,8 +117,13 @@ export class Queen extends Piece {
     this.icon = "chess-queen";
     this.name = "Queen";
   }
-  move(): boolean {
+  move(to: number[], otherPieces: Piece[]): boolean {
+    this.position = to;
     return true;
+  }
+
+  take() {
+    this.isTaken = true;
   }
 }
 
@@ -105,7 +133,12 @@ export class King extends Piece {
     this.icon = "chess-king";
     this.name = "King";
   }
-  move(): boolean {
+  move(to: number[], otherPieces: Piece[]): boolean {
+    this.position = to;
     return true;
+  }
+
+  take() {
+    this.isTaken = true;
   }
 }

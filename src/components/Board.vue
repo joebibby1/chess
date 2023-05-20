@@ -17,6 +17,7 @@
         :position="[rowIndex, columIndex]"
         :selectedSquare="selectedSquare"
         @click="onClick(rowIndex, columIndex)"
+        :board="board"
       />
     </div>
   </div>
@@ -34,9 +35,21 @@ const selectSquare = (rowIndex: number, columnIndex: number) => {
   selectedSquare.value = [rowIndex, columnIndex];
 };
 const onClick = (rowIndex: number, columnIndex: number) => {
-  const pieceOnSelectedSquare = board.value.getPiece(selectedSquare.value);
+  const pieceOnSelectedSquare = board.value.getActivePiece(
+    selectedSquare.value
+  );
+  const pieceOnTargetSquare = board.value.getActivePiece([
+    rowIndex,
+    columnIndex,
+  ]);
   if (selectedSquare.value && pieceOnSelectedSquare) {
-    pieceOnSelectedSquare.move([rowIndex, columnIndex], board.value.pieces);
+    const isValidMove = pieceOnSelectedSquare.move(
+      [rowIndex, columnIndex],
+      board.value.pieces
+    );
+    if (isValidMove && pieceOnTargetSquare) {
+      pieceOnTargetSquare.take();
+    }
     selectedSquare.value = null;
   } else {
     selectSquare(rowIndex, columnIndex);
