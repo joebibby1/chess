@@ -29,11 +29,26 @@ export class Pawn extends Piece {
   }
 
   move(to: number[], otherPieces: Piece[]): boolean {
-    // can move 2 on first move, 1 otherwise
     const distanceTravelled = Math.abs(this.position[0] - to[0]);
+    const isTaking = otherPieces.find(
+      (piece) =>
+        piece.position[0] === to[0] &&
+        piece.position[1] === to[1] &&
+        !piece.isTaken
+    );
+    // cant move more than 2
     if (distanceTravelled > 2) return false;
+    // can move 2 only on first move
     if (distanceTravelled === 2 && this.hasMoved) return false;
+    // cant move back
+    if (this.isWhite && this.position[0] > to[0]) return false;
+    if (!this.isWhite && this.position[0] < to[0]) return false;
+    // cant move sideways
+    if (this.position[1] !== to[1] && !isTaking) return false;
+    // can only take diagonally
+    if (this.position[0] === to[0] && isTaking) return false;
 
+    console.log("from", this.position);
     console.log("to", to);
     // execute the move
     this.position = to;
@@ -71,6 +86,10 @@ export class Bishop extends Piece {
     this.name = "Bishop";
   }
   move(to: number[], otherPieces: Piece[]): boolean {
+    // can't move along files
+    // can't move along ranks
+    if (this.position[0] === to[0] || this.position[1] === to[1]) return false;
+
     this.position = to;
     return true;
   }

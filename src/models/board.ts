@@ -3,12 +3,16 @@ import { Piece, Pawn, Rook, Knight, Bishop, Queen, King } from "./pieces";
 export class Board {
   pieces: Piece[];
   boardSquares: number[][];
-  constructor() {
+  constructor(pieces?: Piece[]) {
+    // can pass pieces in to set up speciifc position, or intialize a new game
     this.boardSquares = Array(8)
       .fill(null)
       .map(() => Array(8).fill(null));
-
-    this.initializePieces();
+    if (pieces) {
+      this.pieces = pieces;
+    } else {
+      this.initializePieces();
+    }
   }
 
   initializePieces() {
@@ -66,7 +70,12 @@ export class Board {
     );
   }
 
-  takePiece(position: number[]) {}
+  takePiece(takingPiece: Piece, takenPiece: Piece) {
+    // may need to reorder it so that there are not 2 pieces on same sqaure at any point
+    const res = takingPiece.move(takenPiece.position, this.pieces);
+    if (!res) return;
+    takenPiece.take();
+  }
 
   // removePiece(position: number[]) {
   //   this.pieces[position[0]][position[1]] = null;
