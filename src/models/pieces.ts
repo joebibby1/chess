@@ -48,34 +48,9 @@ export class Pawn extends Piece {
     // can only take diagonally
     if (this.position[0] === to[0] && isTaking) return false;
 
-    console.log("from", this.position);
-    console.log("to", to);
-    // execute the move
     this.position = to;
     this.hasMoved = true;
     return true;
-
-    // // can only move forward (how do we know which way is forward?, for now assume white always starts at 1st row)
-    // if (this.isWhite && from[0] > to[0]) {
-    //   console.log(1);
-    //   return false;
-    // }
-    // if (!this.isWhite && to[0] > from[0]) {
-    //   console.log(2);
-    //   return false;
-    // }
-    // // can only move 1 space at a time, unless it's the first move then it can move 2 spaces
-    // if (Math.sqrt(Math.pow(from[0] - to[0], 2)) > 1 && this.hasMoved) {
-    //   console.log(3);
-    //   return false;
-    // }
-    // console.log("distance travelled", from[0] - to[0]);
-    // if (Math.sqrt(Math.pow(from[0] - to[0], 2)) > 2) {
-    //   console.log(4);
-    //   return false;
-    // }
-    // // can move diagonally if taking a piece
-    // return true;
   }
 }
 
