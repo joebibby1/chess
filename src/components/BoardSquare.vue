@@ -1,7 +1,10 @@
 <template>
   <div :class="`${sqaureBackground} board-square`">
     <div v-if="piece" :class="pieceColor" :draggable="true">
-      <font-awesome-icon :icon="piece?.icon" />
+      <font-awesome-icon
+        style="height: 20px; margin-top: 20px"
+        :icon="piece?.icon"
+      />
     </div>
   </div>
 </template>

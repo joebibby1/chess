@@ -63,7 +63,12 @@ export class Bishop extends Piece {
   move(to: number[], otherPieces: Piece[]): boolean {
     // can't move along files
     // can't move along ranks
-    if (this.position[0] === to[0] || this.position[1] === to[1]) return false;
+
+    const distanceTravelledY = Math.abs(this.position[0] - to[0]);
+    const distanceTravelledX = Math.abs(this.position[1] - to[1]);
+
+    if (distanceTravelledX === 0 || distanceTravelledX === 0) return false;
+    if (distanceTravelledX !== distanceTravelledY) return false;
 
     this.position = to;
     return true;
@@ -80,6 +85,16 @@ export class Knight extends Piece {
     this.name = "Knight";
   }
   move(to: number[], otherPieces: Piece[]): boolean {
+    // if x coord is 2 away, y coord must be 1 away, vice versa
+    // cant move more than 2
+    const distanceTravelledY = Math.abs(this.position[0] - to[0]);
+    const distanceTravelledX = Math.abs(this.position[1] - to[1]);
+
+    if (distanceTravelledX > 2 || distanceTravelledY > 2) return false;
+    if (distanceTravelledX === 2 && distanceTravelledY !== 1) return false;
+    if (distanceTravelledY === 2 && distanceTravelledX !== 1) return false;
+    if (distanceTravelledX === 0 || distanceTravelledY === 0) return false;
+
     this.position = to;
     return true;
   }
@@ -96,6 +111,14 @@ export class Rook extends Piece {
     this.name = "Rook";
   }
   move(to: number[], otherPieces: Piece[]): boolean {
+    const distanceTravelledY = Math.abs(this.position[0] - to[0]);
+    const distanceTravelledX = Math.abs(this.position[1] - to[1]);
+
+    // can't move diagonally
+    if (distanceTravelledX > 0 && distanceTravelledY > 0) return false;
+
+    if (distanceTravelledX === 0 && distanceTravelledY === 0) return false;
+
     this.position = to;
     return true;
   }
@@ -112,7 +135,21 @@ export class Queen extends Piece {
     this.name = "Queen";
   }
   move(to: number[], otherPieces: Piece[]): boolean {
+    const distanceTravelledY = Math.abs(this.position[0] - to[0]);
+    const distanceTravelledX = Math.abs(this.position[1] - to[1]);
+
+    console.log("x", distanceTravelledX, "y", distanceTravelledY);
+
+    // can move either diagonally or along files or ranks, but not both simultaneously (as with a knight)
+    if (
+      distanceTravelledX !== distanceTravelledY &&
+      distanceTravelledX > 0 &&
+      distanceTravelledY > 0
+    )
+      return false;
+
     this.position = to;
+
     return true;
   }
 
@@ -128,7 +165,16 @@ export class King extends Piece {
     this.name = "King";
   }
   move(to: number[], otherPieces: Piece[]): boolean {
+    const distanceTravelledY = Math.abs(this.position[0] - to[0]);
+    const distanceTravelledX = Math.abs(this.position[1] - to[1]);
+
+    // can't move more than 1
+    if (distanceTravelledX > 1 || distanceTravelledY > 1) return false;
+
+    if (distanceTravelledX === 0 && distanceTravelledY === 0) return false;
+
     this.position = to;
+
     return true;
   }
 

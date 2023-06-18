@@ -29,7 +29,6 @@ import BoardSquare from "./BoardSquare.vue";
 import { ref } from "vue";
 
 const board = ref(new Board());
-console.log("pieces", board.value.pieces);
 const selectedSquare = ref<null | number[]>(null);
 const selectSquare = (rowIndex: number, columnIndex: number) => {
   selectedSquare.value = [rowIndex, columnIndex];
