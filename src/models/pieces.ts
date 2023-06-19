@@ -1,3 +1,5 @@
+import { isBlocked, isTaking } from "../helpers/export";
+
 export abstract class Piece {
   isWhite: boolean;
   isTaken: boolean;

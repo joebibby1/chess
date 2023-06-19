@@ -1,4 +1,5 @@
 import { Piece, Pawn, Rook, Knight, Bishop, Queen, King } from "./pieces";
+import { isTaking } from "../helpers/export";
 
 export class Board {
   pieces: Piece[];
